@@ -1,57 +1,57 @@
 const appDimensions = () => {
-    const doc = document.documentElement;
-    doc.style.setProperty("--app-height", `${window.innerHeight}px`);
-    doc.style.setProperty("--app-width", `${window.innerWidth}px`);
+  const doc = document.documentElement;
+  doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+  doc.style.setProperty("--app-width", `${window.innerWidth}px`);
 }
 window.addEventListener("resize", appDimensions);
 appDimensions();
 
+// panPan
 const ele = document.getElementById("canvasContainer");
 let pos = { top: 0, left: 0, x: 0, y: 0 };
 const mouseDownHandler = function (e) {
-    ele.style.cursor = "grabbing";
-    ele.style.userSelect = "none";
+  ele.style.cursor = "grabbing";
+  ele.style.userSelect = "none";
 
-    pos = {
-        left: ele.scrollLeft,
-        top: ele.scrollTop,
-        // Get the current mouse position
-        x: e.clientX,
-        y: e.clientY,
-    };
+  pos = {
+    left: ele.scrollLeft,
+    top: ele.scrollTop,
+    // Get the current mouse position
+    x: e.clientX,
+    y: e.clientY,
+  };
 
-    document.addEventListener("mousemove", mouseMoveHandler);
-    document.addEventListener("mouseup", mouseUpHandler);
+  document.addEventListener("mousemove", mouseMoveHandler);
+  document.addEventListener("mouseup", mouseUpHandler);
 };
 const mouseMoveHandler = function (e) {
-    // How far the mouse has been moved
-    const dx = e.clientX - pos.x;
-    const dy = e.clientY - pos.y;
+  // How far the mouse has been moved
+  const dx = e.clientX - pos.x;
+  const dy = e.clientY - pos.y;
 
-    // Scroll the element
-    ele.scrollTop = pos.top - dy;
-    ele.scrollLeft = pos.left - dx;
+  // Scroll the element
+  ele.scrollTop = pos.top - dy;
+  ele.scrollLeft = pos.left - dx;
 };
 const mouseUpHandler = function () {
-    ele.style.cursor = "grab";
-    ele.style.removeProperty("user-select");
+  ele.style.cursor = "grab";
+  ele.style.removeProperty("user-select");
 
-    document.removeEventListener("mousemove", mouseMoveHandler);
-    document.removeEventListener("mouseup", mouseUpHandler);
+  document.removeEventListener("mousemove", mouseMoveHandler);
+  document.removeEventListener("mouseup", mouseUpHandler);
 };
 
 
 document.getElementById("panButton").addEventListener("click", togglePan);
 function togglePan() {
-  var x = document.getElementById("canvasContainer");
-  if (x.style.touchAction == "none") {
-    x.style.touchAction = "auto";
+  if (ele.style.touchAction == "none") {
+    ele.style.touchAction = "auto";
     isPanning = true;
     ele.style.cursor = "grab";
     // Attach the handler
     ele.addEventListener("mousedown", mouseDownHandler);
   } else {
-    x.style.touchAction = "none";
+    ele.style.touchAction = "none";
     isPanning = false;
     ele.removeEventListener("mousedown", mouseDownHandler);
     ele.style.cursor = "auto"
@@ -138,48 +138,4 @@ function undoDrawing() {
 
 function clearDrawing() {
   drawing = [];
-}
-
-function panPan() {
-  const ele = document.getElementById("canvasContainer");
-  ele.style.cursor = "grab";
-
-  let pos = { top: 0, left: 0, x: 0, y: 0 };
-
-  const mouseDownHandler = function (e) {
-      ele.style.cursor = "grabbing";
-      ele.style.userSelect = "none";
-
-      pos = {
-          left: ele.scrollLeft,
-          top: ele.scrollTop,
-          // Get the current mouse position
-          x: e.clientX,
-          y: e.clientY,
-      };
-
-      document.addEventListener("mousemove", mouseMoveHandler);
-      document.addEventListener("mouseup", mouseUpHandler);
-  };
-
-  const mouseMoveHandler = function (e) {
-      // How far the mouse has been moved
-      const dx = e.clientX - pos.x;
-      const dy = e.clientY - pos.y;
-
-      // Scroll the element
-      ele.scrollTop = pos.top - dy;
-      ele.scrollLeft = pos.left - dx;
-  };
-
-  const mouseUpHandler = function () {
-      ele.style.cursor = "grab";
-      ele.style.removeProperty("user-select");
-
-      document.removeEventListener("mousemove", mouseMoveHandler);
-      document.removeEventListener("mouseup", mouseUpHandler);
-  };
-
-  // Attach the handler
-  ele.addEventListener("mousedown", mouseDownHandler);
 }
