@@ -72,7 +72,7 @@ function setup() {
 }
 
 function setup_() {
-  canvas = createCanvas(1500, 1500).parent("canvasContainer").id("drawingCanvas");
+  canvas = createCanvas(1000, 1000).parent("canvasContainer").id("drawingCanvas"); // WEBGL
 
   canvas.touchStarted(startPath);
   canvas.mousePressed(startPath);
@@ -104,6 +104,7 @@ function endPath() {
 
 function draw() {
   background("#1d1d1d");
+  // translate(-width / 2, -height / 2, 0);
 
   if (!isPanning) {
     if (isDrawing) {
@@ -123,6 +124,7 @@ function draw() {
     if (path.length !== 0) {
       beginShape();
       for (var j = 0; j < path.length; j++) {
+        // fill(path[j].color);
         stroke(path[j].color);
         strokeWeight(path[j].weight);
         vertex(path[j].x, path[j].y);
@@ -139,3 +141,21 @@ function undoDrawing() {
 function clearDrawing() {
   drawing = [];
 }
+
+$(function () {
+  $("#slider-vertical").slider({
+    orientation: "vertical",
+    range: "min",
+    min: 2,
+    max: 42,
+    value: 2,
+    slide: function (event, ui) {
+      $("#weight").val(ui.value);
+    }
+  });
+  $("#weight").val($("#slider-vertical").slider("value"));
+});
+
+$(window).on("load", function () {
+  $("#exampleModal").modal({ "backdrop": "static", "keyboard": false, "show": true });
+});
