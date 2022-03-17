@@ -1,8 +1,7 @@
 #canvasContainer {
     width: var(--app-width);
     height: var(--app-height);
-    overflow: scroll;
-    /*scrollbar-width: none;*/
+    /* overflow: scroll; */
 }
 
 :root {
@@ -60,7 +59,7 @@ html, body {
     align-items: stretch;
 }
 
-.sidebar li:nth-last-of-type(3) {
+.sidebar li:nth-last-of-type(4) {
     margin-top: auto;
 }
 
