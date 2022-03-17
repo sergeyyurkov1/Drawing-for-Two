@@ -136,7 +136,7 @@ function togglePencil() {
     ele.style.touchAction = "none";
     ele.style.cursor = "auto !important"
 
-    ele.removeEventListener("mousedown", mouseDownHandler);
+    // ele.removeEventListener("mousedown", mouseDownHandler);
 }
 
 
@@ -148,7 +148,7 @@ function togglePan() {
     ele.style.touchAction = "auto";
     ele.style.cursor = "grab !important";
 
-    ele.addEventListener("mousedown", mouseDownHandler);
+    // ele.addEventListener("mousedown", mouseDownHandler);
 }
 
 // canvas.getObjects(); // get all objects on canvas (rect will be first and only)
@@ -176,4 +176,34 @@ function printLast() {
 
 $(window).on("load", function () {
     $("#exampleModal").modal("show"); // { "backdrop": "static", "keyboard": false, "show": true }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    //The first argument are the elements to which the plugin shall be initialized
+    //The second argument has to be at least a empty object or a object with your desired options
+    OverlayScrollbars(document.querySelectorAll("#canvasContainer"), { className: "os-theme-block-dark" });
+});
+
+$(window).on("shown.bs.modal", function () {
+    let uuid = self.crypto.randomUUID().split("-", 1);
+
+    $("#room-id").val(uuid).attr("readonly", "readonly");
+
+    document.getElementById("copyToClipboard").addEventListener("click", copyToClipboard);
+    function copyToClipboard() {
+        var room_id = document.getElementById("room-id");
+
+        room_id.select();
+        room_id.setSelectionRange(0, 99999); /* for mobile devices */
+
+        navigator.clipboard.writeText(room_id.value);
+    }
+
+
+    var socket = io();
+    socket.on('connect', function () {
+        socket.emit('my event', { data: 'I\'m connected!' });
+        console.log("Socket success!");
+    });
+
 });
