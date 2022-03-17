@@ -20,13 +20,13 @@ html, body {
 /**/
 .sidebar {
     background-color: #333;
-    /* box-shadow: 0px 0px 10px rgba(30, 30, 30, 0.75); */
+    box-shadow: 0px 0px 10px rgba(30, 30, 30, 0.75);
     color: #fff;
     transform: translate(-50%, -50%);
     position: absolute;
     left: 42px;
     top: calc(var(--app-height) / 2);
-    height: 60vh;
+    height: 42vh;
     padding: 5px;
     z-index: 1000;
 }
@@ -48,16 +48,7 @@ html, body {
 
 .sidebar input,
 .sidebar button {
-    text-align: center;
     width: 45px;
-}
-
-#slider-vertical {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    margin-left: auto;
-    margin-right: auto;
-    align-items: stretch;
 }
 
 .sidebar li:nth-last-of-type(4) {

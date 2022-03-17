@@ -32,7 +32,7 @@
 
 
 
-
+backgroundColor_ = "#e9e9ed";
 
 const appDimensions = () => {
     const doc = document.documentElement;
@@ -46,29 +46,38 @@ let weight = document.getElementById("weight");
 
 let c = document.getElementById("c");
 
-var canvas = new fabric.Canvas("c", { isDrawingMode: true, width: 1000, height: 1000, allowTouchScrolling: true, backgroundColor: "#e9e9ed" });
+var canvas = new fabric.Canvas("c", { isDrawingMode: true, width: 1000, height: 1000, allowTouchScrolling: true, backgroundColor: backgroundColor_ });
 
 fabric.Object.prototype.transparentCorners = false;
+fabric.Object.prototype.selectable = false;
 canvas.selection = false;
 
-canvas.freeDrawingBrush.width = parseInt(document.getElementById("weight").value, 10) || 0;
-canvas.freeDrawingBrush.color = document.getElementById("color").value;
+width = parseInt(document.getElementById("weight").value, 10) || 0;
+canvas.freeDrawingBrush.width = width;
+
+color = document.getElementById("color").value;
+canvas.freeDrawingBrush.color = color;
 
 document.getElementById("color").onchange = function () {
-    canvas.freeDrawingBrush.color = this.value;
+    color = this.value;
+    canvas.freeDrawingBrush.color = color;
 };
 document.getElementById("weight").onchange = function () {
-    canvas.freeDrawingBrush.width = parseInt(this.value, 10) || 0;
+    width = parseInt(this.value, 10) || 0;
+    canvas.freeDrawingBrush.width = width;
 };
 document.getElementById("clearButton").onclick = function () {
     canvas.clear();
+    canvas.backgroundColor = backgroundColor_;
 };
 
 document.getElementById("eraserButton").addEventListener("click", toggleEraser);
 function toggleEraser() {
-    canvas.freeDrawingBrush = new fabric.EraserBrush(canvas);
-    canvas.freeDrawingBrush.inverted = true;
-    canvas.freeDrawingBrush.width = 10;
+    // canvas.freeDrawingBrush = new fabric.EraserBrush(canvas);
+    canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+    // canvas.freeDrawingBrush.inverted = true;
+    canvas.freeDrawingBrush.color = backgroundColor_;
+    canvas.freeDrawingBrush.width = width;
 
     canvas.isDrawingMode = true;
     isPanning = false;
@@ -116,6 +125,11 @@ const mouseUpHandler = function () {
 
 document.getElementById("pencilButton").addEventListener("click", togglePencil);
 function togglePencil() {
+    canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+    // canvas.freeDrawingBrush.inverted = true;
+    canvas.freeDrawingBrush.color = color;
+    canvas.freeDrawingBrush.width = width;
+
     canvas.isDrawingMode = true;
     isPanning = false;
 
@@ -155,3 +169,7 @@ function togglePan() {
 //     $("#weight").val($("#slider-vertical").slider("value"));
 // });
 
+canvas.on("object:added", printLast);
+function printLast() {
+    console.log(canvas.item());
+}
