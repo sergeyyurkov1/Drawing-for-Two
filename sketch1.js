@@ -107,7 +107,7 @@ function togglePan() {
     // if drawing
     if (ele.style.touchAction == "none") {
         ele.style.touchAction = "auto";
-        c.style.touchAction = "manipulation !important";
+        // c.style.touchAction = "manipulation !important";
         // c.style.pointerEvents = "none !important";
         // c.style.userSelect = "none !important";
         isPanning = true;
