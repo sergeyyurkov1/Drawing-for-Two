@@ -173,3 +173,7 @@ canvas.on("object:added", printLast);
 function printLast() {
     console.log(canvas.item());
 }
+
+$(window).on("load", function () {
+    $("#exampleModal").modal("show"); // { "backdrop": "static", "keyboard": false, "show": true }
+});
