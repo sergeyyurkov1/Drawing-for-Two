@@ -46,7 +46,7 @@ let weight = document.getElementById("weight");
 
 let c = document.getElementById("c");
 
-var canvas = new fabric.Canvas("c", { isDrawingMode: true, width: 1000, height: 1000, allowTouchScrolling: true });
+var canvas = new fabric.Canvas("c", { isDrawingMode: true, width: 1000, height: 1000, allowTouchScrolling: true, backgroundColor: "#e9e9ed" });
 
 fabric.Object.prototype.transparentCorners = false;
 canvas.selection = false;
@@ -63,6 +63,21 @@ document.getElementById("weight").onchange = function () {
 document.getElementById("clearButton").onclick = function () {
     canvas.clear();
 };
+
+document.getElementById("eraserButton").addEventListener("click", toggleEraser);
+function toggleEraser() {
+    canvas.freeDrawingBrush = new fabric.EraserBrush(canvas);
+    canvas.freeDrawingBrush.inverted = true;
+    canvas.freeDrawingBrush.width = 10;
+
+    canvas.isDrawingMode = true;
+    isPanning = false;
+
+    ele.style.touchAction = "none";
+    ele.style.cursor = "auto !important"
+
+    ele.removeEventListener("mousedown", mouseDownHandler);
+}
 
 // panPan
 const ele = document.getElementById("canvasContainer");
@@ -99,30 +114,27 @@ const mouseUpHandler = function () {
     document.removeEventListener("mouseup", mouseUpHandler);
 };
 
+document.getElementById("pencilButton").addEventListener("click", togglePencil);
+function togglePencil() {
+    canvas.isDrawingMode = true;
+    isPanning = false;
+
+    ele.style.touchAction = "none";
+    ele.style.cursor = "auto !important"
+
+    ele.removeEventListener("mousedown", mouseDownHandler);
+}
+
 
 document.getElementById("panButton").addEventListener("click", togglePan);
 function togglePan() {
-    canvas.isDrawingMode = !canvas.isDrawingMode;
+    canvas.isDrawingMode = false;
+    isPanning = true;
 
-    // if drawing
-    if (ele.style.touchAction == "none") {
-        ele.style.touchAction = "auto";
-        // c.style.touchAction = "manipulation !important";
-        // c.style.pointerEvents = "none !important";
-        // c.style.userSelect = "none !important";
-        isPanning = true;
-        ele.style.cursor = "grab !important";
-        // Attach the handler
-        ele.addEventListener("mousedown", mouseDownHandler);
-    } else { // if panning
-        ele.style.touchAction = "none";
-        // c.style.touchAction = "auto !important";
-        // c.style.pointerEvents = "auto !important";
-        // c.style.userSelect = "auto !important";
-        isPanning = false;
-        ele.removeEventListener("mousedown", mouseDownHandler);
-        ele.style.cursor = "auto !important"
-    }
+    ele.style.touchAction = "auto";
+    ele.style.cursor = "grab !important";
+
+    ele.addEventListener("mousedown", mouseDownHandler);
 }
 
 // canvas.getObjects(); // get all objects on canvas (rect will be first and only)
